@@ -6,8 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.mvc.LastModified;
 
 import com.booway.dataview.application.biz.AppInfoBiz;
-import com.booway.dataview.application.biz.PageInfoBiz;
-import com.booway.dataview.common.controller.BaseController;
+import com.booway.daer;
 import com.booway.dataview.dashboard.biz.DashboardInfoBiz;
 import com.booway.dataview.dashboard.biz.DashboardTagInfoBiz;
 import com.booway.dataview.dashboard.biz.DashboardTagRelInfoBiz;
@@ -50,19 +49,6 @@ public abstract class AbstractBaseController extends BaseController implements L
     	
     }
 
-    /**
-     * @Description: 此处的UserName 即为 loginName
-     * @return
-     * @Return: String
-     */
-    public String getUserName()
-    {
-        UserInfo accountInfo = getCurrentUserInfo();
-        if (accountInfo != null)
-        {
-            return accountInfo.getLoginName();
-        }
-        return null;
     }
 
     /**
@@ -70,11 +56,9 @@ public abstract class AbstractBaseController extends BaseController implements L
      */
     public UserInfo getCurrentUserInfo()
     {
-        return SecurityUtils.getCurrentUser();
+       
     }
 
     public UserInfo getUserInfo(String loginName)
     {
-        return userInfoBiz.loadUserByUsername(loginName);
-    }
 }
