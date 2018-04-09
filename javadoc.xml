@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project default="javadoc">
+	<property name="src.dir" location="../admin-core/src;../dataview-api/src;../multimedia-plugin/src;../ego-core/src"/>
+	<property name="dest.dir" location="doc"/>
+	<property name="classpath.dir" location="./WebContent/WEB-INF/lib/*;../admin-core/lib/*;../ego-core/lib/*"/>
+	<property name="packagenames" value="
+		com.booway.plugin.manage.kernel.api,
+		com.booway.dataview.api.entity,
+		com.booway.dataview.api.service,
+		com.booway.ego.multimedia.service,
+		com.booway.ego.common,
+		com.booway.ego.common.web,
+		com.booway.ego.macro,
+		com.booway.ego.macro.impl,
+		com.booway.ego.plugin
+		"/>
+
+    <target name="javadoc">
+    	<delete dir="${dest.dir}"/>
+    	<mkdir dir="${dest.dir}"/>
+        <javadoc
+        	sourcepath="${src.dir}"
+        	destdir="${dest.dir}"
+        	classpath="${classpath.dir}"
+        	packagenames="${packagenames}"
+	        access="protected"
+        	charset="UTF-8"
+        	encoding="UTF-8"
+        	docencoding="UTF-8"
+	        doctitle="开发文档"
+        	nodeprecated="false" nodeprecatedlist="false" noindex="false" nonavbar="false" notree="false"
+	        source="1.7" splitindex="true" use="true" author="true" version="true">
+    	</javadoc>
+    </target>
+
+</project>

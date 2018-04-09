@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project basedir="." default="deploy" name="dataview">
+
+    <!-- 定义项目名称 -->
+    <property name="project.destname" value="dataview"></property>
+
+    <!-- 定义环境变量 -->
+    <property environment="env"></property>
+    <property name="debuglevel" value="source,lines,vars"></property>
+    <property name="target" value="1.6"></property>
+    <property name="source" value="1.6"></property>
+    <property name="webroot.dir" value="${basedir}/WebContent"></property>
+    <property name="webinf.dir" value="${webroot.dir}/WEB-INF"></property>
+    <property name="build.dir" value="${basedir}/build"></property>
+
+    <!--定义项目打包的临时目录-->
+    <property name="prj_tmp_path" value="${env.TEMP}/dataview"></property>
+
+    <!-- 清空 编译目录 -->
+    <target name="clean">
+        <delete dir="${prj_tmp_path}"></delete>
+    </target>
+	<path id="Dependent.Libraries">
+		<fileset dir="${webinf.dir}/lib">
+			<include name="**/*.jar"></include>
+		</fileset>
+	</path>
+	
+    <!-- 复制文件 -->
+    <target depends="clean" name="copyfile">
+        <mkdir dir="${prj_tmp_path}"></mkdir>
+        <copy includeemptydirs="true" todir="${prj_tmp_path}">
+            <fileset dir="${webroot.dir}">
+                <exclude name="**/*.launch"></exclude>
+                <exclude name="**/*.java"></exclude>
+            	<exclude name="admin/resources/src/**"></exclude>
+            	<exclude name="admin/srcindex/**"></exclude>
+            	<exclude name="admin/default.html"></exclude>
+            	
+            	<exclude name="admin/**"></exclude>
+            	<exclude name="dataview-application/**"></exclude>
+            	<exclude name="dataview-article/**"></exclude>
+            	<exclude name="dataview-console/**"></exclude>
+            	<exclude name="dataview-dashboard/**"></exclude>
+            	<exclude name="dataview-data/**"></exclude>
+        		<exclude name="dataview-multimedia/**"></exclude>
+        		<exclude name="dataview-resources/**"></exclude>
+        		<exclude name="dataview-theme-default/**"></exclude>
+            	<exclude name="dataview-uam/**"></exclude>
+            	<exclude name="dataview-widget/**"></exclude>
+        		<exclude name="decorators/**"></exclude>
+            	<exclude name="error/**"></exclude>
+            	<exclude name="WEB-INF/lib1/**"></exclude>
+            </fileset>
+        </copy>
+    </target>
+	
+	<target depends="copyfile" name="build-project">
+        <echo message="${project.destname}: ${ant.file}"></echo>
+		<mkdir dir="${prj_tmp_path}/WEB-INF/classes"></mkdir>
+        <javac debug="true" debuglevel="${debuglevel}"  encoding="utf-8" destdir="${prj_tmp_path}/WEB-INF/classes" 
+        	source="${source}" target="${target}">
+            <src path="src"></src>
+            <classpath refid="Dependent.Libraries"></classpath>
+        </javac>
+		<copy includeemptydirs="true" todir="${prj_tmp_path}/WEB-INF/classes">
+		     <fileset dir="src">
+		        <exclude name="**/*.launch"></exclude>
+		        <exclude name="**/*.java"></exclude>
+		     	<exclude name="**/*.class"></exclude>
+		     </fileset>
+		</copy>
+    </target>
+
+    <!-- 创建 war 包 -->
+    <target depends="build-project" name="create_war">
+        <mkdir dir="build"></mkdir>
+        <war basedir="${prj_tmp_path}" encoding="UTF-8" warfile="build/${project.destname}.war" webxml="${webinf.dir}/web.xml"></war>
+    </target>
+
+    <!-- 部署工程 -->
+    <target depends="create_war" name="deploy">
+    </target>
+</project>
